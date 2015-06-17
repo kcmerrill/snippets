@@ -1,6 +1,9 @@
 # Snippets
 Basic personal gist service. 
 
+[screenshot]: https://raw.githubusercontent.com/kcmerrill/snippets/master/screenshots/newsnippet.png "Snippets Screenshot"
+
+
 # Installation
 The easiest way is via yoda. yoda summon kcmerrill/snippets
 
