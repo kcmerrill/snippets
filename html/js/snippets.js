@@ -63,7 +63,6 @@ angular.module('snippetsApp', [])
             return ace.require("ace/ext/modelist").modes;
         },
         type: function(mode) {
-            console.log(mode);
             /* Update our editor type */
             var editor = ace.edit("editor");
             var modelist = ace.require("ace/ext/modelist");
