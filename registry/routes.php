@@ -21,7 +21,8 @@ $app->get('/{id}/download', function($id) use ($app) {
 $app->get('/{id}', function($id) use ($app) {
     $snippet = $app['db']->fetch($id);
     if($snippet) {
-        return include 'views/' . $app['theme'] . '.html';
+        include 'views/' . $app['theme'] . '.html';
+        return '';
     } else {
         return $app->redirect('/');
     }
