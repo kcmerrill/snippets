@@ -1,0 +1,6 @@
+{
+    "require": {
+        "league/monga": "1.1.0",
+        "silex/silex": "~1.2"
+    }
+}

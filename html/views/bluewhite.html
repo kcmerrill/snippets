@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+    <title>Code Snippets</title>
+    <style type="text/css" media="screen">
+        html,body {
+            margin:0px;
+            padding:0px;
+        }
+        div.noselection, i.no_selection {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -ms-user-select: none;
+        }
+        input, select, button {
+            outline: none;
+        }
+        input {
+            padding: 5px;
+            font-size: 10px;
+            background-color:none;
+            border: none;
+        }
+        select {
+            float: left;
+            border: none;
+            background: none;
+            width: 125px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+        }
+        .light-blue-font {
+            color: #6BD9EE;
+        }
+        .light-blue-bg {
+            background-color: #6BD9EE;
+        }
+        .pink {
+            color: #F62C73;
+        }
+        .pink-bg {
+            background-color: #F62C73;
+        }
+        .red-bg {
+            background-color: #B9121B;
+        }
+        .blue-bg {
+            background-color: #3498DB;
+        }
+        .blue-font {
+            color: #3498DB;
+        }
+        .dark-blue-bg {
+            background-color: #2C3E50;
+        }
+        .green-bg {
+            background-color: #7BB019;
+        }
+        .white-font{
+            color:white;
+        }
+        .fancy-font {
+            font-family: 'Droid Sans', sans-serif;
+        }
+        button {
+            width: 100%;
+            padding:10px;
+            font-size: 40px;
+            border: none;
+            cursor: pointer;
+        }
+        .menu {
+            height:55px;
+            width: 100%;
+            margin:0px;
+        }
+        .menu i:first-child {
+            padding-left: 30px;
+        }
+        .menu i {
+            color:white;
+            font-size:20px;
+            padding:10px 10px 0px 15px;
+            opacity:.3;
+        }
+        .menu i:hover {
+            cursor:pointer;
+            opacity:1;
+        }
+        #editor {
+            position: absolute;
+            top: 40px;
+            left:0px;
+            right: 0;
+            bottom: 0;
+            width:100%;
+            z-index: 10;
+        }
+        .saving {
+            position:fixed;
+            bottom: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            padding:10px;
+            font-size: 20px;
+            z-index: 100;
+        }
+        .link {
+            font-size: 10px;
+            float:right;
+            padding:15px;
+        }
+    </style>
+</head>
+<body ng-app="snippetsApp" class="blue-bg">
+   <div class="menu" ng-controller="menuCtrl">
+        <i class="fa fa-floppy-o" alt="Save current file" title="Save current file" ng-click="save()"></i>
+        <i class="fa fa-code-fork" alt="Fork the current file" title="Fork the current file" ng-click="fork()" ng-show="snippet.id"></i>
+        <i class="fa fa-cloud-download" alt="Download this file" title="Download this file" ng-click="download()" ng-show="snippet.id"></i>
+        <select class="fancy-font white-font" ng-options="item.caption for item in types track by item.mode" ng-model="type" ng-change="editor.type(type.mode)"></select>
+        <select class="fancy-font white-font" ng-model="mode" ng-change="editor.mode(mode)">
+            <option value="">Text Editor</option>
+            <option value="ace/keyboard/vim">Vim</option>
+            <option value="ace/keyboard/emacs">Emacs</option>
+        </select>
+        <span class="link white-font fancy-font" ng-show="snippet.id"><?php echo $_SERVER['HTTP_HOST']; ?>/<?php echo isset($snippet) ? $snippet['id'] : ''; ?></span>
+        <input type="hidden" ng-model="bleh" ng-init="fetch(<?php echo isset($snippet) ? "'". $snippet['id'] ."'" : 'false'; ?>)" value="<?php echo isset($snippet) ? $snippet['id'] : ''; ?>">
+    </div>
+    <div class="saving blue-bg white-font fancy-font" ng-controller="savingCtrl" ng-show="false">
+        <i class="fa fa-circle-o-notch fa-spin"></i>&nbsp;Saving ...
+    </div>
+    <div id="editor"></div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ext-modelist.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.3/lodash.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/snippets.js"></script>
+    <script>
+        /* Set some defaults for our editor */
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/github");
+        editor.getSession().setTabSize(4);
+        editor.getSession().setUseSoftTabs(true);
+        editor.$blockScrolling = Infinity;
+
+    </script>
+</body>
+</html>
