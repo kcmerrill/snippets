@@ -2,19 +2,16 @@ angular.module('snippetsApp', [])
 .factory('snippet', function($http, editor){
     return {
         editor: editor,
-        id: false,
+        _id: false,
         tags: '',
         code: '',
         filename: '',
         link: false,
-        fetch: function(id){
-            /* do some fetching here */
-        },
         fetch: function(id, callback) {
             var self = this;
             $http.get('/' + id + '/raw').
             success(function(data, status, headers, config) {
-                self.id = data.id;
+                self._id = data._id;
                 self.code = data.snippet;
                 editor.set(data.snippet);
                 callback(data.type);
@@ -24,13 +21,13 @@ angular.module('snippetsApp', [])
         save: function(type, content, tags){
             var self = this;
             $http.post('/save', {
-                id: self.id,
+                _id: self._id,
                 type: type,
                 snippet: content,
             }).
             success(function(data, status, headers, config) {
-                if(data.id != self.id) {
-                    window.location = '/' + data.id;
+                if(data._id != self._id) {
+                    window.location = '/' + data._id;
                 }
             }).
             error(function(data, status, headers, config) {
@@ -39,7 +36,7 @@ angular.module('snippetsApp', [])
         link: function() {},
         fork: function(type, content, tags){
             var self = this;
-            self.id = false;
+            self._id = false;
             self.save(type, content, tags);
         }
     };
@@ -81,16 +78,16 @@ angular.module('snippetsApp', [])
     $scope.types = editor.types();
     $scope.type = _.find($scope.types, {name: 'text'});
     editor.type($scope.type.mode);
-    $scope.fetch = function(id) {
-        if(id) {
-             $scope.snippet.fetch(id, function(type) {
+    $scope.fetch = function(_id) {
+        if(_id) {
+             $scope.snippet.fetch(_id, function(type) {
                 $scope.type = _.find($scope.types, { name: type });
                 editor.type($scope.type.mode);
             });
         }
     };
     $scope.download = function() {
-        window.location = '/' + $scope.snippet.id + '/download';
+        window.location = '/' + $scope.snippet._id + '/download';
     };
     $scope.fork = function() {
         snippet.fork($scope.type.name, ace.edit("editor").getSession().getValue(), $scope.tags);

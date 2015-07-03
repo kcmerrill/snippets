@@ -128,16 +128,16 @@
 <body ng-app="snippetsApp" class="blue-bg">
    <div class="menu" ng-controller="menuCtrl">
         <i class="fa fa-floppy-o" alt="Save current file" title="Save current file" ng-click="save()"></i>
-        <i class="fa fa-code-fork" alt="Fork the current file" title="Fork the current file" ng-click="fork()" ng-show="snippet.id"></i>
-        <i class="fa fa-cloud-download" alt="Download this file" title="Download this file" ng-click="download()" ng-show="snippet.id"></i>
+        <i class="fa fa-code-fork" alt="Fork the current file" title="Fork the current file" ng-click="fork()" ng-show="snippet._id"></i>
+        <i class="fa fa-cloud-download" alt="Download this file" title="Download this file" ng-click="download()" ng-show="snippet._id"></i>
         <select class="fancy-font white-font" ng-options="item.caption for item in types track by item.mode" ng-model="type" ng-change="editor.type(type.mode)"></select>
         <select class="fancy-font white-font" ng-model="mode" ng-change="editor.mode(mode)">
             <option value="">Text Editor</option>
             <option value="ace/keyboard/vim">Vim</option>
             <option value="ace/keyboard/emacs">Emacs</option>
         </select>
-        <span class="link white-font fancy-font" ng-show="snippet.id"><?php echo $_SERVER['HTTP_HOST']; ?>/<?php echo isset($snippet) ? $snippet['id'] : ''; ?></span>
-        <input type="hidden" ng-model="bleh" ng-init="fetch(<?php echo isset($snippet) ? "'". $snippet['id'] ."'" : 'false'; ?>)" value="<?php echo isset($snippet) ? $snippet['id'] : ''; ?>">
+        <span class="link white-font fancy-font" ng-show="snippet._id"><?php echo $_SERVER['HTTP_HOST']; ?>/<?php echo isset($snippet) ? $snippet['_id'] : ''; ?></span>
+        <input type="hidden" ng-model="bleh" ng-init="fetch(<?php echo isset($snippet) ? "'". $snippet['_id'] ."'" : 'false'; ?>)" value="<?php echo isset($snippet) ? $snippet['_id'] : ''; ?>">
     </div>
     <div class="saving blue-bg white-font fancy-font" ng-controller="savingCtrl" ng-show="false">
         <i class="fa fa-circle-o-notch fa-spin"></i>&nbsp;Saving ...

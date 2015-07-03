@@ -9,17 +9,17 @@ $app->get('/', function() use ($app) {
 });
 
 $app->get('/{id}/raw', function($id) use ($app) {
-    $fetch = $app['db']->fetch($id, true);
+    $fetch = $app['snippets']->fetch($id, true);
     return $fetch ? new Response($fetch, Response::HTTP_OK, array('content-type' => 'application/json')) : new Response('Unable to find ' . $id, 500);
 });
 
 $app->get('/{id}/download', function($id) use ($app) {
-    $fetch = $app['db']->fetch($id);
+    $fetch = $app['snippets']->fetch($id);
     return $fetch ? new Response($fetch['snippet'], Response::HTTP_OK, array('content-type' => 'application/octet-stream','content-disposition'=>'attachment; filename="'. $id  .'"')) : new Response('Unable to find ' . $id, 500);
 });
 
 $app->get('/{id}', function($id) use ($app) {
-    $snippet = $app['db']->fetch($id);
+    $snippet = $app['snippets']->fetch($id);
     if($snippet) {
         include 'views/' . $app['theme'] . '.html';
         return '';
@@ -29,12 +29,12 @@ $app->get('/{id}', function($id) use ($app) {
 });
 
 $app->get('/{id}/{filename}', function($id, $filename) use ($app) {
-    $fetch = $app['db']->fetch($id);
+    $fetch = $app['snippets']->fetch($id);
     return $fetch ? new Response($fetch['snippet'], Response::HTTP_OK, array('content-type' => 'text/plain')) : new Response('Unable to find ' . $id, 500);
 });
 
 $app->post('/save', function(Request $request) use ($app) {
     $data = json_decode($request->getContent(), true);
-    $saved = $app['db']->save($data);
+    $saved = $app['snippets']->save($data);
     return $saved ? new Response($saved, 200) : new Response('Unable to save', 500);
 });

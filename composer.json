@@ -1,6 +1,6 @@
 {
     "require": {
-        "league/monga": "1.1.0",
-        "silex/silex": "~1.2"
+        "silex/silex": "2.0.x-dev",
+        "kcmerrill/snitchin": "dev-master"
     }
 }
